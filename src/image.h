@@ -5,11 +5,11 @@
 
 typedef struct Image
 {
-	int w,h;
+	unsigned int w,h;
 	Pixel* pixel;
 } Image;
 
-Image* NewImage(int w,int h);
+Image* NewImage(unsigned int w,unsigned int h);
 void FreeImage(Image* I);
 Image* LoadImage(const char* fichier);
 int SaveImage(Image* I,const char* fichier);

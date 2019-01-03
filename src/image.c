@@ -4,12 +4,12 @@
 
 #include "image.h"
 
-Image* NewImage(int w,int h)
+Image* NewImage(unsigned int w,unsigned int h)
 {
 	Image* I = malloc(sizeof(Image));
 	I->w = w;
 	I->h = h;
-	I->pixel = calloc(1,w*h*sizeof(Pixel*));
+	I->pixel = calloc(1,w*h*sizeof(Pixel));
 	return I;
 }
 
