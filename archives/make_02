@@ -5,25 +5,22 @@ OBJ = src/obj/main.o src/obj/lut.o src/obj/image.o
 
 PROG = bin/minigimp
 
-CC = gcc
-CFLAGS = -Wall -O2 -g3
-
 
 $(PROG) : $(OBJ)
-	$(CC) $(CFLAGS) $(OBJ) -o $@
+	gcc -o $(PROG) $(OBJ)
 	@echo "*** to execute, type : ./bin/minigimp & ***"
 
 $(MAIN_O) : src/main.c src/image.h src/lut.h
 	@echo "compile main"
-	$(CC) $(CFLAGS) -c $< -o $@
+	gcc -o $(MAIN_O) -c src/main.c -Wall -O2 -g3
 	@echo "done!"
 
 $(IMAGE_O) : src/image.c src/image.h src/pixel.h
 	@echo "compile image"
-	$(CC) $(CFLAGS) -c $< -o $@
+	gcc -o $(IMAGE_O) -c src/image.c -Wall -O2 -g3
 	@echo "done!"
 
 $(LUT_O) : src/lut.c src/lut.h src/image.h
 	@echo "compile lut"
-	$(CC) $(CFLAGS) -c $< -o $@
+	gcc -o $(LUT_O) -c src/lut.c -Wall -O2 -g3
 	@echo "done!"

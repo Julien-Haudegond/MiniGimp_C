@@ -7,6 +7,10 @@ void NewImage(Image* I, unsigned int w, unsigned int h)
 {
 	// memory allocation
 	I->pixel = calloc(1, w*h*sizeof(Pixel));
+	if (I-> pixel == NULL){
+		printf("Error: not enough memory.\n");
+		exit(EXIT_FAILURE);
+	}
 	I->w = w;
 	I->h = h;
 }
@@ -19,22 +23,28 @@ void FreeImage(Image* I)
 	}
 }
 
-void LoadImage(Image* I, const char* fichier)
+int LoadImage(Image* I, const char* fichier)
 {
 	int w, h, max;
 	char buffer[10];
 	FILE* F = fopen(fichier,"rb");
 	if (!F)
-		return NULL;
-	fscanf(F,"%s %d %d %d\n",buffer,&w,&h,&max);
+		return EXIT_FAILURE;
+	if(fscanf(F,"%s %d %d %d\n",buffer,&w,&h,&max) != 4){
+		printf("Error on the header reading.\n");
+		exit(EXIT_FAILURE);
+	}
 	NewImage(I,w,h);
-    fread(I->pixel, sizeof(Pixel), w*h, F);
+    if(fread(I->pixel, sizeof(Pixel), w*h, F) != w*h){
+    	printf("Error: the image was not read completely.\n");
+    	exit(EXIT_FAILURE);
+    }
 	fclose(F);
+	return EXIT_SUCCESS;
 }
 
 int SaveImage(Image* I, const char* fichier)
 {
-	int i;
 	FILE* F = fopen(fichier,"wb");
 	if (!F)
 		return -1;

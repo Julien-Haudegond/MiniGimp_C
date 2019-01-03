@@ -11,7 +11,7 @@ typedef struct Image
 
 void NewImage(Image* I, unsigned int w, unsigned int h);
 void FreeImage(Image* I);
-void LoadImage(Image* I, const char* fichier);
+int LoadImage(Image* I, const char* fichier);
 int SaveImage(Image* I, const char* fichier);
 
 #endif

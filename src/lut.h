@@ -8,6 +8,7 @@ typedef enum {
 } LUT;
 
 void AddLuminosity(Image* I, int intensity);
+void ReduceLuminosity(Image* I, int intensity);
 void ApplyLut(Image* I, int intensity, LUT chosenLut);
 
 #endif

@@ -1,0 +1,18 @@
+bin/minigimp : src/obj/main.o src/obj/lut.o src/obj/image.o
+	gcc -o bin/minigimp src/obj/main.o src/obj/lut.o src/obj/image.o
+	@echo "*** to execute, type : ./bin/minigimp & ***"
+
+src/obj/main.o : src/main.c src/image.h src/lut.h
+	@echo "compile main"
+	gcc -o src/obj/main.o -c src/main.c -Wall -O2
+	@echo "done!"
+
+src/obj/image.o : src/image.c src/image.h src/pixel.h
+	@echo "compile image"
+	gcc -o src/obj/image.o -c src/image.c -Wall -O2
+	@echo "done!"
+
+src/obj/lut.o : src/lut.c src/lut.h src/image.h
+	@echo "compile lut"
+	gcc -o src/obj/lut.o -c src/lut.c -Wall -O2
+	@echo "done!"
