@@ -7,8 +7,9 @@
 //MAIN DE TEST (pas définitif)
 int main()
 {
-    Image* I = LoadImage("lake_P6.ppm");
-    SaveImage(I,"test.ppm");
-    FreeImage(I);
+    Image I;
+    LoadImage(&I,"lake_P6.ppm");
+    SaveImage(&I,"test.ppm");
+    FreeImage(&I);
     return EXIT_SUCCESS;
 }

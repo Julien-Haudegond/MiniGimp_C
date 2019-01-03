@@ -1,16 +1,14 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 
 #include "image.h"
 
-Image* NewImage(unsigned int w,unsigned int h)
+void NewImage(Image* I, unsigned int w, unsigned int h)
 {
-	Image* I = malloc(sizeof(Image));
+	// memory allocation
+	I->pixel = calloc(1, w*h*sizeof(Pixel));
 	I->w = w;
 	I->h = h;
-	I->pixel = calloc(1,w*h*sizeof(Pixel));
-	return I;
 }
 
 void FreeImage(Image* I)
@@ -18,26 +16,23 @@ void FreeImage(Image* I)
 	if (I)
 	{
 		free(I->pixel);
-		free(I);
 	}
 }
 
-Image* LoadImage(const char* fichier)
+void LoadImage(Image* I, const char* fichier)
 {
 	int w, h, max;
 	char buffer[10];
-	Image* I;
 	FILE* F = fopen(fichier,"rb");
 	if (!F)
 		return NULL;
 	fscanf(F,"%s %d %d %d\n",buffer,&w,&h,&max);
-	I = NewImage(w,h);
+	NewImage(I,w,h);
     fread(I->pixel, sizeof(Pixel), w*h, F);
 	fclose(F);
-	return I;
 }
 
-int SaveImage(Image* I,const char* fichier)
+int SaveImage(Image* I, const char* fichier)
 {
 	int i;
 	FILE* F = fopen(fichier,"wb");
