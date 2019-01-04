@@ -10,7 +10,7 @@ int main()
 {
     Image I;
     LoadImage(&I,"../images/PPM_Base/lake_P6.ppm");
-    ApplyLut(&I, 50, DIMLUM);
+    ApplyLut(&I, 50, ADDLUM);
     SaveImage(&I,"../images/test.ppm");
     FreeImage(&I);
     return EXIT_SUCCESS;

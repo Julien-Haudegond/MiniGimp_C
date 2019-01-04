@@ -7,7 +7,7 @@ void NewImage(Image* I, unsigned int w, unsigned int h)
 {
 	// memory allocation
 	I->pixel = calloc(1, w*h*sizeof(Pixel));
-	if (I-> pixel == NULL){
+	if (I->pixel == NULL){
 		printf("Error: not enough memory.\n");
 		exit(EXIT_FAILURE);
 	}
@@ -47,9 +47,9 @@ int SaveImage(Image* I, const char* fichier)
 {
 	FILE* F = fopen(fichier,"wb");
 	if (!F)
-		return -1;
+		return EXIT_FAILURE;
 	fprintf(F,"P6\n%d %d\n255\n",I->w,I->h);
 	fwrite(I->pixel, sizeof(Pixel), I->w*I->h, F);
 	fclose(F);
-	return 0;
+	return EXIT_SUCCESS;
 }

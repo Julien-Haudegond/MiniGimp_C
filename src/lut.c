@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 #define LUTLENGTH 256
 
@@ -7,6 +8,11 @@
 void AddLuminosity(Image* I, int intensity){
     int tab[LUTLENGTH];
     int i;
+
+    if(!I){
+    	printf("No image available.\n");
+    	exit(EXIT_FAILURE);
+    }
 
     for(i=0; i<LUTLENGTH; i++){
         tab[i] = i + intensity;
@@ -28,6 +34,11 @@ void ReduceLuminosity(Image* I, int intensity){
     int tab[LUTLENGTH];
     int i;
 
+    if(!I){
+    	printf("No image available.\n");
+    	exit(EXIT_FAILURE);
+    }
+
     for(i=0; i<LUTLENGTH; i++){
         tab[i] = i - intensity;
 
@@ -46,6 +57,12 @@ void ReduceLuminosity(Image* I, int intensity){
 
 
 void ApplyLut(Image* I, int intensity, LUT chosenLut){
+
+	if(!I){
+    	printf("No image available.\n");
+    	exit(EXIT_FAILURE);
+    }
+
     switch(chosenLut){
         case ADDLUM: AddLuminosity(I, intensity); break;
         case DIMLUM: ReduceLuminosity(I, intensity); break;

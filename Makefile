@@ -9,8 +9,8 @@ CC = gcc
 CFLAGS = -Wall -O2 -g3
 
 
-$(PROG) : $(OBJ)
-	$(CC) $(CFLAGS) $(OBJ) -o $@
+all : $(OBJ)
+	$(CC) $(CFLAGS) $(OBJ) -o $(PROG)
 	@echo "*** to execute, type : ./bin/minigimp & ***"
 
 $(MAIN_O) : src/main.c src/image.h src/lut.h
