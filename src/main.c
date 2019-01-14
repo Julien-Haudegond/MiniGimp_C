@@ -9,8 +9,8 @@
 int main()
 {
     Image I;
-    LoadImage(&I,"images/PPM_Base/desert_P6_comments.ppm");
-    ApplyLut(&I, 50, ADDLUM);
+    LoadImage(&I,"images/PPM_Base/lake_P6.ppm");
+    ApplyLut(&I, 50, ADDCON);
     SaveImage(&I,"images/test.ppm");
     FreeImage(&I);
     return EXIT_SUCCESS;
