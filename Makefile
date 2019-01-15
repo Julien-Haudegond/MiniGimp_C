@@ -1,7 +1,8 @@
 MAIN_O = src/obj/main.o
 LUT_O = src/obj/lut.o
 IMAGE_O = src/obj/image.o
-OBJ = src/obj/main.o src/obj/lut.o src/obj/image.o
+HISTOGRAM_O = src/obj/histogram.o
+OBJ = src/obj/main.o src/obj/lut.o src/obj/image.o src/obj/histogram.o
 
 PROG = bin/minigimp
 
@@ -25,5 +26,10 @@ $(IMAGE_O) : src/image.c src/image.h src/pixel.h
 
 $(LUT_O) : src/lut.c src/lut.h src/image.h
 	@echo "compile lut"
+	$(CC) $(CFLAGS) -c $< -o $@
+	@echo "done!"
+
+$(HISTOGRAM_O) : src/histogram.c src/histogram.h src/image.h
+	@echo "compile histogram"
 	$(CC) $(CFLAGS) -c $< -o $@
 	@echo "done!"

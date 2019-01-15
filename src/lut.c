@@ -6,8 +6,9 @@
 #include "lut.h"
 
 void AddLuminosity(Image* I, int intensity){
-    int tab[LUTLENGTH];
-    int i;
+    int tab[LUTLENGTH]; //LUT Array
+    int i; //Counter for the loop
+    int value; //Variable used to give the output value based on the input value
 
     //Check if the image exists
     if(!I){
@@ -24,7 +25,7 @@ void AddLuminosity(Image* I, int intensity){
 
     //Assign the LUT values to the pixel's data
     for (i=0; i<(I->w*I->h); i++){
-        int value = I->pixel[i].r;
+        value = I->pixel[i].r;
         I->pixel[i].r = tab[value];
         value = I->pixel[i].g;
         I->pixel[i].g = tab[value];
@@ -34,8 +35,9 @@ void AddLuminosity(Image* I, int intensity){
 }
 
 void ReduceLuminosity(Image* I, int intensity){
-    int tab[LUTLENGTH];
-    int i;
+    int tab[LUTLENGTH]; //LUT Array
+    int i; //Counter for the loop
+    int value; //Variable used to give the output value based on the input value
 
     //Check if the image exists
     if(!I){
@@ -52,7 +54,7 @@ void ReduceLuminosity(Image* I, int intensity){
 
     //Assign the LUT values to the pixel's data
     for (i=0; i<(I->w*I->h); i++){
-        int value = I->pixel[i].r;
+        value = I->pixel[i].r;
         I->pixel[i].r = tab[value];
         value = I->pixel[i].g;
         I->pixel[i].g = tab[value];
@@ -62,8 +64,9 @@ void ReduceLuminosity(Image* I, int intensity){
 }
 
 void AddContrast(Image* I, int intensity){
-    int tab[LUTLENGTH];
-    int i;
+    int tab[LUTLENGTH]; //LUT Array
+    int i; //Counter for the loop
+    int value; //Variable used to give the output value based on the input value
     float coef;
 
     //Check if the intensity is a positive number
@@ -91,7 +94,7 @@ void AddContrast(Image* I, int intensity){
 
     //Assign the LUT values to the pixel's data
     for (i=0; i<(I->w*I->h); i++){
-        int value = I->pixel[i].r;
+        value = I->pixel[i].r;
         I->pixel[i].r = tab[value];
         value = I->pixel[i].g;
         I->pixel[i].g = tab[value];
@@ -101,8 +104,9 @@ void AddContrast(Image* I, int intensity){
 }
 
 void ReduceContrast(Image* I, int intensity){
-    int tab[LUTLENGTH];
-    int i;
+    int tab[LUTLENGTH]; //LUT Array
+    int i; //Counter for the loop
+    int value; //Variable used to give the output value based on the input value
     float coef;
 
     //Check if the intensity is a positive number
@@ -132,7 +136,7 @@ void ReduceContrast(Image* I, int intensity){
 
     //Assign the LUT values to the pixel's data
     for (i=0; i<(I->w*I->h); i++){
-        int value = I->pixel[i].r;
+        value = I->pixel[i].r;
         I->pixel[i].r = tab[value];
         value = I->pixel[i].g;
         I->pixel[i].g = tab[value];
