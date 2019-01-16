@@ -7,25 +7,19 @@
 #include "histogram.h"
 
 
+// ./bin/minigimp images/PPM_Base/lake_P6.ppm -h ADDLUM
+
 int main(int argc, char *argv[])
 {
-	/* Testing arguments
-	for(int j = 0; j < argc ; j++){
-		printf("%s \n",argv[j]);
-	}*/
 	
-	if(argc >= 1){
+	if(argc >= 2){
 		Image I;
-		
-		/* 
-		char imagesPath[] = "images/PPM_Base/";
-		char filename[] = argv[1];
-		strcat(imagesPath,filename);
-		LoadImage(&I,imagesPath);
-		*/
-		
+		Image histoInitial;
+   		Image histoFinal;
 		//vérifier aussi que l'argument dans argv[1] est bien un fichier ppm
-		LoadImage(&I,"images/PPM_Base/lake_P6.ppm");
+		//LoadImage(&I,"images/PPM_Base/lake_P6.ppm");
+		LoadImage(&I,argv[1]);
+		int displayHistogram = 0;
 
    		for(int i = 2; i < argc; i++){
    			
@@ -40,18 +34,29 @@ int main(int argc, char *argv[])
    				printf("Ajout de luminosite \n");
    			}else if(strcmp(argv[i], "DIMLUM") == 0){
    				ApplyLut(&I, 50, DIMLUM);
-   				printf("Diminution luminosite \n");
+   				printf("Diminution de la luminosite \n");
    			}else if(strcmp(argv[i], "INVERT") == 0){
    				printf("Inversion des couleurs \n");
    			}else if(strcmp(argv[i], "SEPIA") == 0){
-   				printf("Image convertie en sepia \n");
+   				printf("Conversion en sepia \n");
+   			}else if(strcmp(argv[i], "-h") == 0 || strcmp(argv[i], "-histo") == 0){
+   				displayHistogram = 1;
+   				WriteHistogram(&I, &histoInitial);
+   				SaveImage(&histoInitial, "images/test_histo_initial.ppm");	
    			}
    		}
+		if(displayHistogram == 1){
+			WriteHistogram(&I, &histoFinal);
+			SaveImage(&histoFinal, "images/test_histo_final.ppm");
+			FreeImage(&histoInitial);
+  			FreeImage(&histoFinal);
+		}
 		SaveImage(&I,"images/test.ppm");
    		FreeImage(&I);
+   		
    		return EXIT_SUCCESS;
 	}else{
-		printf("Missing first argument : input file (filename.ppm) \n");
+		printf("Missing argument : input file (filename.ppm)\n");
 		return EXIT_FAILURE;
 	}
 	
@@ -69,7 +74,7 @@ int main()
     LoadImage(&I,"images/PPM_Base/lake_P6.ppm");
     WriteHistogram(&I, &histoInitial);
     SaveImage(&histoInitial, "images/test_histo_initial.ppm");
-    ApplyLut(&I, 50, DIMCON);
+    ApplyLut(&I, 50, ADDLUM);
     WriteHistogram(&I, &histoFinal);
     SaveImage(&histoFinal, "images/test_histo_final.ppm");
     SaveImage(&I,"images/test.ppm");
