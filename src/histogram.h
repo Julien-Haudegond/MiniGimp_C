@@ -3,6 +3,6 @@
 
 #include "image.h"
 
-int LumCounter (Image* I);
+void LumCounter (Image* I);
 
 #endif
