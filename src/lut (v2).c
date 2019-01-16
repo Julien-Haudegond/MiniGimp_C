@@ -10,7 +10,7 @@
 //******************************
 
 
-void AddLumLUT(int tab[], int intensity){
+int* AddLumLUT(int tab[], int intensity){
     int i; //Counter for the loop
 
     //Assign to each input value a output value depending on the intensity factor (filling the LUT array)
@@ -19,9 +19,11 @@ void AddLumLUT(int tab[], int intensity){
 
         if (tab[i] > 255) tab[i] = 255;
     }
+
+    return tab;
 }
 
-void DimLumLUT(int tab[], int intensity){
+int* DimLumLUT(int tab[], int intensity){
     int i; //Counter for the loop
 
     //Assign to each input value a output value depending on the intensity factor (filling the LUT array)
@@ -30,9 +32,11 @@ void DimLumLUT(int tab[], int intensity){
 
         if (tab[i] < 0) tab[i] = 0;
     }
+
+    return tab;
 }
 
-void AddConLUT(int tab[], int intensity){
+int* AddConLUT(int tab[], int intensity){
     int i; //Counter for the loop
     float coef;
 
@@ -52,9 +56,11 @@ void AddConLUT(int tab[], int intensity){
         if (tab[i] < 0) tab[i] = 0;
         if (tab[i] > 255) tab[i] = 255;
     }
+
+    return tab;
 }
 
-void DimConLUT(int tab[], int intensity){
+int* DimConLUT(int tab[], int intensity){
     int i; //Counter for the loop
     float coef;
 
@@ -76,6 +82,8 @@ void DimConLUT(int tab[], int intensity){
         if (tab[i] < 0) tab[i] = 0;
         if (tab[i] > 255) tab[i] = 255;
     }
+
+    return tab;
 }
 
 
@@ -109,24 +117,18 @@ void Apply1DLut (Image* I, int tab[]){
 
 //Function to apply a LUT to a image
 void ApplyLut(Image* I, int intensity, LUT chosenLut){
-    int tab_1[LUTLENGTH]; //Create an empty array
-    int tab_2[LUTLENGTH]; //Create an empty array
-    int tab_3[LUTLENGTH]; //Create an empty array
-    
+    int tab[LUTLENGTH]; //LUT Array
 
-    //Check if the image exists
 	if(!I){
     	printf("No image available.\n");
     	exit(EXIT_FAILURE);
     }
 
     switch(chosenLut){
-        case ADDLUM: AddLumLUT(tab_1, intensity); Apply1DLut (I, tab_1); break;
-        case DIMLUM: DimLumLUT(tab_1, intensity); Apply1DLut (I, tab_1); break;
-        case ADDCON: AddConLUT(tab_1, intensity); Apply1DLut (I, tab_1); break;
-        case DIMCON: DimConLUT(tab_1, intensity); Apply1DLut (I, tab_1); break;
-        //case INVERT: InvertLUT(tab_1); break;
-        //case SEPIA : SepiaLUT()
+        case ADDLUM: Apply1DLut (I, AddLumLUT(tab, intensity)); break;
+        case DIMLUM: Apply1DLut (I, DimLumLUT(tab, intensity)); break;
+        case ADDCON: Apply1DLut (I, AddConLUT(tab, intensity)); break;
+        case DIMCON: Apply1DLut (I, DimConLUT(tab, intensity)); break;
         default: printf("Error\n"); break;
     }
 }
