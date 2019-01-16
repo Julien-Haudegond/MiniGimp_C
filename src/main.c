@@ -21,6 +21,7 @@ int main(int argc, char *argv[])
 		strcat(imagesPath,filename);
 		LoadImage(&I,imagesPath);
 		*/
+		
 		//vérifier aussi que l'argument dans argv[1] est bien un fichier ppm
 		LoadImage(&I,"images/PPM_Base/lake_P6.ppm");
 
