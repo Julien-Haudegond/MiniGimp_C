@@ -14,13 +14,14 @@ int main(int argc, char *argv[])
 	
 	if(argc >= 1){
 		Image I;
-		//vérifier aussi que l'argument dans argv[1] est bien un fichier ppm
+		
 		/* 
 		char imagesPath[] = "images/PPM_Base/";
 		char filename[] = argv[1];
 		strcat(imagesPath,filename);
 		LoadImage(&I,imagesPath);
 		*/
+		//vérifier aussi que l'argument dans argv[1] est bien un fichier ppm
 		LoadImage(&I,"images/PPM_Base/lake_P6.ppm");
 
    		for(int i = 2; i < argc; i++){

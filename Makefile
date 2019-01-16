@@ -14,7 +14,7 @@ all : $(OBJ)
 	$(CC) $(CFLAGS) $(OBJ) -o $(PROG)
 	@echo "*** to execute, type : ./bin/minigimp & ***"
 
-$(MAIN_O) : src/main.c src/image.h src/lut.h
+$(MAIN_O) : src/main.c src/image.h src/lut.h src/histogram.h
 	@echo "compile main"
 	$(CC) $(CFLAGS) -c $< -o $@
 	@echo "done!"
