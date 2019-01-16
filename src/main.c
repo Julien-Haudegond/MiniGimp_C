@@ -4,6 +4,7 @@
 
 #include "image.h"
 #include "lut.h"
+#include "histogram.h"
 
 int main(int argc, char *argv[])
 {
