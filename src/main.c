@@ -4,6 +4,8 @@
 
 #include "image.h"
 #include "lut.h"
+#include "histogram.h"
+
 
 int main(int argc, char *argv[])
 {
@@ -55,14 +57,26 @@ int main(int argc, char *argv[])
 	
 }
 
+
+#ifdef DONTREADTHISCODE
+
 //MAIN DE TEST (pas définitif)
-/*
 int main()
 {
     Image I;
+    Image histoInitial;
+    Image histoFinal;
     LoadImage(&I,"images/PPM_Base/lake_P6.ppm");
-    ApplyLut(&I, 50, ADDCON);
+    WriteHistogram(&I, &histoInitial);
+    SaveImage(&histoInitial, "images/test_histo_initial.ppm");
+    ApplyLut(&I, 50, DIMCON);
+    WriteHistogram(&I, &histoFinal);
+    SaveImage(&histoFinal, "images/test_histo_final.ppm");
     SaveImage(&I,"images/test.ppm");
     FreeImage(&I);
+    FreeImage(&histoInitial);
+    FreeImage(&histoFinal);
     return EXIT_SUCCESS;
-}*/
+}
+
+#endif
