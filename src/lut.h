@@ -7,10 +7,12 @@ typedef enum {
 	ADDLUM, DIMLUM, ADDCON, DIMCON, INVERT, SEPIA
 } LUT;
 
-void AddLuminosity(Image* I, int intensity);
-void ReduceLuminosity(Image* I, int intensity);
-void AddContrast(Image* I, int intensity);
-void ReduceContrast(Image* I, int intensity);
+void AddLumLUT(int tab[], int intensity);
+void DimLumLUT(int tab[], int intensity);
+void AddConLUT(int tab[], int intensity);
+void DimConLUT(int tab[], int intensity);
+
+void Apply1DLut (Image* I, int tab[]);
 void ApplyLut(Image* I, int intensity, LUT chosenLut);
 
 #endif

@@ -5,15 +5,13 @@
 
 #include "lut.h"
 
-void AddLuminosity(Image* I, int intensity){
-    int tab[LUTLENGTH];
-    int i;
+//******************************
+//********* LUT ARRAYS *********
+//******************************
 
-    //Check if the image exists
-    if(!I){
-    	printf("No image available.\n");
-    	exit(EXIT_FAILURE);
-    }
+
+void AddLumLUT(int tab[], int intensity){
+    int i; //Counter for the loop
 
     //Assign to each input value a output value depending on the intensity factor (filling the LUT array)
     for(i=0; i<LUTLENGTH; i++){
@@ -21,27 +19,10 @@ void AddLuminosity(Image* I, int intensity){
 
         if (tab[i] > 255) tab[i] = 255;
     }
-
-    //Assign the LUT values to the pixel's data
-    for (i=0; i<(I->w*I->h); i++){
-        int value = I->pixel[i].r;
-        I->pixel[i].r = tab[value];
-        value = I->pixel[i].g;
-        I->pixel[i].g = tab[value];
-        value = I->pixel[i].b;
-        I->pixel[i].b = tab[value];
-    }
 }
 
-void ReduceLuminosity(Image* I, int intensity){
-    int tab[LUTLENGTH];
-    int i;
-
-    //Check if the image exists
-    if(!I){
-    	printf("No image available.\n");
-    	exit(EXIT_FAILURE);
-    }
+void DimLumLUT(int tab[], int intensity){
+    int i; //Counter for the loop
 
     //Assign to each input value a output value depending on the intensity factor (filling the LUT array)
     for(i=0; i<LUTLENGTH; i++){
@@ -49,21 +30,10 @@ void ReduceLuminosity(Image* I, int intensity){
 
         if (tab[i] < 0) tab[i] = 0;
     }
-
-    //Assign the LUT values to the pixel's data
-    for (i=0; i<(I->w*I->h); i++){
-        int value = I->pixel[i].r;
-        I->pixel[i].r = tab[value];
-        value = I->pixel[i].g;
-        I->pixel[i].g = tab[value];
-        value = I->pixel[i].b;
-        I->pixel[i].b = tab[value];
-    }
 }
 
-void AddContrast(Image* I, int intensity){
-    int tab[LUTLENGTH];
-    int i;
+void AddConLUT(int tab[], int intensity){
+    int i; //Counter for the loop
     float coef;
 
     //Check if the intensity is a positive number
@@ -75,12 +45,6 @@ void AddContrast(Image* I, int intensity){
     //Assign a value to a coefficient based on a contrast formula
     coef = (float) (259*(intensity+255))/(255*(259-intensity));
 
-    //Check if the image exists
-    if(!I){
-    	printf("No image available.\n");
-    	exit(EXIT_FAILURE);
-    }
-
     //Assign to each input value a output value depending on the intensity factor (filling the LUT array)
     for(i=0; i<LUTLENGTH; i++){
         tab[i] = coef*(i-128)+128; //Contrast formula
@@ -88,21 +52,10 @@ void AddContrast(Image* I, int intensity){
         if (tab[i] < 0) tab[i] = 0;
         if (tab[i] > 255) tab[i] = 255;
     }
-
-    //Assign the LUT values to the pixel's data
-    for (i=0; i<(I->w*I->h); i++){
-        int value = I->pixel[i].r;
-        I->pixel[i].r = tab[value];
-        value = I->pixel[i].g;
-        I->pixel[i].g = tab[value];
-        value = I->pixel[i].b;
-        I->pixel[i].b = tab[value];
-    }
 }
 
-void ReduceContrast(Image* I, int intensity){
-    int tab[LUTLENGTH];
-    int i;
+void DimConLUT(int tab[], int intensity){
+    int i; //Counter for the loop
     float coef;
 
     //Check if the intensity is a positive number
@@ -116,12 +69,6 @@ void ReduceContrast(Image* I, int intensity){
     intensity = -intensity;
     coef = (float) (259*(intensity+255))/(255*(259-intensity));
 
-    //Check if the image exists
-    if(!I){
-    	printf("No image available.\n");
-    	exit(EXIT_FAILURE);
-    }
-
     //Assign to each input value a output value depending on the intensity factor (filling the LUT array)
     for(i=0; i<LUTLENGTH; i++){
         tab[i] = coef*(i-128)+128; //Contrast formula
@@ -129,10 +76,29 @@ void ReduceContrast(Image* I, int intensity){
         if (tab[i] < 0) tab[i] = 0;
         if (tab[i] > 255) tab[i] = 255;
     }
+}
 
-    //Assign the LUT values to the pixel's data
+
+
+//***************************************
+//********* LUT APPLY FUNCTIONS *********
+//***************************************
+
+
+//Function to apply a 1D LUT to a image
+void Apply1DLut (Image* I, int tab[]){
+    int i;
+    int value; //Variable used to give the output value based on the input value
+
+    //Check if the image exists
+    if(!I){
+        printf("No image available.\n");
+        exit(EXIT_FAILURE);
+    }
+
+    //Assign to each subpixel its new value
     for (i=0; i<(I->w*I->h); i++){
-        int value = I->pixel[i].r;
+        value = I->pixel[i].r;
         I->pixel[i].r = tab[value];
         value = I->pixel[i].g;
         I->pixel[i].g = tab[value];
@@ -141,19 +107,26 @@ void ReduceContrast(Image* I, int intensity){
     }
 }
 
-
+//Function to apply a LUT to a image
 void ApplyLut(Image* I, int intensity, LUT chosenLut){
+    int tab_1[LUTLENGTH]; //Create an empty array
+    int tab_2[LUTLENGTH]; //Create an empty array
+    int tab_3[LUTLENGTH]; //Create an empty array
+    
 
+    //Check if the image exists
 	if(!I){
     	printf("No image available.\n");
     	exit(EXIT_FAILURE);
     }
 
     switch(chosenLut){
-        case ADDLUM: AddLuminosity(I, intensity); break;
-        case DIMLUM: ReduceLuminosity(I, intensity); break;
-        case ADDCON: AddContrast(I, intensity); break;
-        case DIMCON: ReduceContrast(I, intensity); break;
+        case ADDLUM: AddLumLUT(tab_1, intensity); Apply1DLut (I, tab_1); break;
+        case DIMLUM: DimLumLUT(tab_1, intensity); Apply1DLut (I, tab_1); break;
+        case ADDCON: AddConLUT(tab_1, intensity); Apply1DLut (I, tab_1); break;
+        case DIMCON: DimConLUT(tab_1, intensity); Apply1DLut (I, tab_1); break;
+        //case INVERT: InvertLUT(tab_1); break;
+        //case SEPIA : SepiaLUT()
         default: printf("Error\n"); break;
     }
 }
