@@ -78,6 +78,53 @@ void DimConLUT(int tab[], int intensity){
     }
 }
 
+void InvertLUT(int tab[]){
+    //Assign to each input value an output value
+    for(int i=0; i<LUTLENGTH; i++){
+        tab[i]= i - 255; //Inverting color formula
+        if(tab[i]<0) tab[i] = -tab[i];
+    }
+}
+
+void SepiaLUT(int tab1[], int tab2[], int tab3[]){
+    int value; int change = 0;
+    for (int i=0; i<(I->w*I->h); i++){
+        value = (I->pixel[i].r + I->pixel[i].g + I->pixel[i].b)/3 ;
+        if (value > 40 && value < 225){
+            change = 20;
+        }
+        I->pixel[i].r = value + 10;
+        I->pixel[i].g = value;
+        I->pixel[i].b = value - change;
+        change = 0;
+    }
+}
+
+/*
+void SepiaLUT(Image* I){
+    for(int i=0; i<LUTLENGTH; i++){
+        tab[i] = tab[i]-255; //Invert colors formula
+        if (tab[i] < 0) tab[i] = - tab[i];
+        if (tab[i] > 255) tab[i] = 255;
+    }
+   
+    BWLUT(I);
+    
+    for (int i=0; i<(I->w*I->h); i++){
+        //I->pixel[i].b = I->pixel[i].b + 20;
+       // I->pixel[i].r = I->pixel[i].r + 50;
+        
+        if(I->pixel[i].b < 0){
+            I->pixel[i].b = 0;
+        }
+        if(I->pixel[i].r > 255){
+            I->pixel[i].b = 255;
+        }
+    }
+}*/
+
+
+
 
 
 //***************************************
@@ -87,7 +134,6 @@ void DimConLUT(int tab[], int intensity){
 
 //Function to apply a 1D LUT to a image
 void Apply1DLut (Image* I, int tab[]){
-    int i;
     int value; //Variable used to give the output value based on the input value
 
     //Check if the image exists
@@ -97,7 +143,7 @@ void Apply1DLut (Image* I, int tab[]){
     }
 
     //Assign to each subpixel its new value
-    for (i=0; i<(I->w*I->h); i++){
+    for (int i=0; i<(I->w*I->h); i++){
         value = I->pixel[i].r;
         I->pixel[i].r = tab[value];
         value = I->pixel[i].g;
@@ -106,6 +152,7 @@ void Apply1DLut (Image* I, int tab[]){
         I->pixel[i].b = tab[value];
     }
 }
+
 
 //Function to apply a LUT to a image
 void ApplyLut(Image* I, int intensity, LUT chosenLut){
@@ -125,8 +172,8 @@ void ApplyLut(Image* I, int intensity, LUT chosenLut){
         case DIMLUM: DimLumLUT(tab_1, intensity); Apply1DLut (I, tab_1); break;
         case ADDCON: AddConLUT(tab_1, intensity); Apply1DLut (I, tab_1); break;
         case DIMCON: DimConLUT(tab_1, intensity); Apply1DLut (I, tab_1); break;
-        //case INVERT: InvertLUT(tab_1); break;
-        //case SEPIA : SepiaLUT()
+        case INVERT: InvertLUT(tab_1); Apply1DLut (I, tab_1); break;
+        case SEPIA : SepiaLUT(I); break;
         default: printf("Error\n"); break;
     }
 }

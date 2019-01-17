@@ -37,7 +37,9 @@ int main(int argc, char *argv[])
    				printf("Diminution de la luminosite \n");
    			}else if(strcmp(argv[i], "INVERT") == 0){
    				printf("Inversion des couleurs \n");
+          ApplyLut(&I, intensity, INVERT);
    			}else if(strcmp(argv[i], "SEPIA") == 0){
+          ApplyLut(&I, intensity, SEPIA);
    				printf("Conversion en sepia \n");
    			}else if(strcmp(argv[i], "-h") == 0 || strcmp(argv[i], "-histo") == 0){
    				displayHistogram = 1;
