@@ -64,7 +64,7 @@ int main(int argc, char *argv[])
 	
 }
 
-/*
+
 #ifdef DONTREADTHISCODE
 
 //MAIN DE TEST (pas définitif)
@@ -76,7 +76,7 @@ int main()
     LoadImage(&I,"images/PPM_Base/lake_P6.ppm");
     WriteHistogram(&I, &histoInitial);
     SaveImage(&histoInitial, "images/test_histo_initial.ppm");
-    ApplyLut(&I, 50, ADDLUM);
+    ApplyLut(&I, 50, INVERT);
     WriteHistogram(&I, &histoFinal);
     SaveImage(&histoFinal, "images/test_histo_final.ppm");
     SaveImage(&I,"images/test.ppm");
@@ -87,4 +87,3 @@ int main()
 }
 
 #endif
-*/

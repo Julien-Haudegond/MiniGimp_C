@@ -81,10 +81,10 @@ void DimConLUT(int tab[], int intensity){
 void InvertLUT(int tab[]){
     //Assign to each input value an output value
     for(int i=0; i<LUTLENGTH; i++){
-        tab[i]= i - 255; //Inverting color formula
-        if(tab[i]<0) tab[i] = -tab[i];
+        tab[i]= 255 - i; //Inverting color formula
     }
 }
+
 
 void SepiaLUT(int tab1[], int tab2[], int tab3[]){
     int value; int change = 0;
