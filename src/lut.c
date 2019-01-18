@@ -5,70 +5,84 @@
 
 #include "lut.h"
 
+/************************
+* Functions concerning the final LUT
+*************************/
+
+void initLutArray(FinalLUT *lut){
+    for(int i =0; i<LUTLENGTH; i++){
+            lut -> tabR[i] = i;
+            lut -> tabG[i] = i;
+            lut -> tabB[i] = i;
+        }
+}
+
+void clippingValues(FinalLUT *lut, int i){
+    if (lut -> tabR[i] < 0) lut -> tabR[i] = 0;
+    if (lut -> tabR[i] > 255) lut -> tabR[i] = 255;
+    if (lut -> tabG[i] < 0) lut -> tabG[i] = 0;
+    if (lut -> tabG[i] > 255) lut -> tabR[i] = 255;
+    if (lut -> tabB[i] < 0) lut -> tabB[i] = 0;
+    if (lut -> tabB[i] > 255) lut -> tabB[i] = 255;
+}
+
+void ApplyLutToImage (Image* I, FinalLUT *lut){
+    int value; //Variable used to give the output value based on the input value
+
+    //Check if the image exists
+    if(!I){
+        printf("No image available.\n");
+        exit(EXIT_FAILURE);
+    }
+
+    //Assign to each subpixel its new value
+    for (int i=0; i<(I->w*I->h); i++){
+        value = I->pixel[i].r;
+        I->pixel[i].r = lut->tabR[value];
+        value = I->pixel[i].g;
+        I->pixel[i].g = lut->tabG[value];
+        value = I->pixel[i].b;
+        I->pixel[i].b = lut->tabB[value];
+    }
+}
+
 //******************************
 //********* LUT ARRAYS *********
 //******************************
 
-void initLutArray(int tab_r[], int tab_g[], int tab_b[]){
-	int i;
-
-	for(i=0; i<LUTLENGTH; i++){
-	        tab_r[i] = i;
-	        tab_g[i] = i;
-	        tab_b[i] = i;
-	    }
-}
-
-void clippingValues(int tab_r[], int tab_g[], int tab_b[], int i){
-	if (tab_r[i] < 0) tab_r[i] = 0;
-    if (tab_r[i] > 255) tab_r[i] = 255;
-    if (tab_g[i] < 0) tab_g[i] = 0;
-    if (tab_g[i] > 255) tab_g[i] = 255;
-    if (tab_b[i] < 0) tab_b[i] = 0;
-    if (tab_b[i] > 255) tab_b[i] = 255;
-}
-
-
-void AddLumLUT(int tab_r[], int tab_g[], int tab_b[], int intensity){
-    int i; //Counter for the loop
-
+void AddLumLUT(FinalLUT *lut, int intensity){
     if(intensity < 0){
     	fprintf(stderr, "The intensity factor needs to be a positive number\n");
     	exit(EXIT_FAILURE);
     }
 
     //Assign to each input value a output value depending on the intensity factor (filling the LUT array)
-    for(i=0; i<LUTLENGTH; i++){
-        tab_r[i] += intensity;
-        tab_g[i] += intensity;
-        tab_b[i] += intensity;
+    for(int i=0; i<LUTLENGTH; i++){
+        lut -> tabR[i] += intensity;
+        lut -> tabG[i] += intensity;
+        lut -> tabB[i] += intensity;
 
-        clippingValues(tab_r, tab_g, tab_b, i);
+        clippingValues(lut, i);
     }
 }
 
-void DimLumLUT(int tab_r[], int tab_g[], int tab_b[], int intensity){
-    int i; //Counter for the loop
-
+void DimLumLUT(FinalLUT *lut, int intensity){
     if(intensity < 0){
     	fprintf(stderr, "The intensity factor needs to be a positive number\n");
     	exit(EXIT_FAILURE);
     }
 
     //Assign to each input value a output value depending on the intensity factor (filling the LUT array)
-    for(i=0; i<LUTLENGTH; i++){
-        tab_r[i] -= intensity;
-        tab_g[i] -= intensity;
-        tab_b[i] -= intensity;
+    for(int i=0; i<LUTLENGTH; i++){
+        lut -> tabR[i] -= intensity;
+        lut -> tabG[i] -= intensity;
+        lut -> tabB[i] -= intensity;
 
-        clippingValues(tab_r, tab_g, tab_b, i);
+        clippingValues(lut, i);
     }
 }
 
-void AddConLUT(int tab_r[], int tab_g[], int tab_b[], int intensity){
-    int i; //Counter for the loop
-    float coef;
-
+void AddConLUT(FinalLUT *lut, int intensity){
     //Check if the intensity is a positive number
     if(intensity < 0){
     	fprintf(stderr, "Error, the contrast parameter needs to be positive number\n");
@@ -76,22 +90,18 @@ void AddConLUT(int tab_r[], int tab_g[], int tab_b[], int intensity){
     }
 
     //Assign a value to a coefficient based on a contrast formula
-    coef = (float) (259*(intensity+255))/(255*(259-intensity));
+    float coef = (float) (259*(intensity+255))/(255*(259-intensity));
 
     //Assign to each input value a output value depending on the intensity factor (filling the LUT array)
-    for(i=0; i<LUTLENGTH; i++){
-        tab_r[i] = coef*(tab_r[i]-128)+128;
-        tab_g[i] = coef*(tab_g[i]-128)+128;
-        tab_b[i] = coef*(tab_b[i]-128)+128; //Contrast formula
-
-       clippingValues(tab_r, tab_g, tab_b, i);
+    for(int i=0; i<LUTLENGTH; i++){
+        lut -> tabR[i] = coef*((lut -> tabR[i])-128)+128;
+        lut -> tabG[i] = coef*((lut -> tabG[i])-128)+128;
+        lut -> tabB[i] = coef*((lut -> tabB[i])-128)+128; //Contrast formula
+        clippingValues(lut, i);
     }
 }
 
-void DimConLUT(int tab_r[], int tab_g[], int tab_b[], int intensity){
-    int i; //Counter for the loop
-    float coef;
-
+void DimConLUT(FinalLUT *lut, int intensity){
     //Check if the intensity is a positive number
     if(intensity < 0){
     	fprintf(stderr, "Error, the contrast parameter needs to be positive number\n");
@@ -100,33 +110,30 @@ void DimConLUT(int tab_r[], int tab_g[], int tab_b[], int intensity){
 
     //Assign a value to a coefficient based on a contrast formula
     intensity = -intensity;
-    coef = (float) (259*(intensity+255))/(255*(259-intensity));
+    float coef = (float) (259*(intensity+255))/(255*(259-intensity));
 
     //Assign to each input value a output value depending on the intensity factor (filling the LUT array)
-    for(i=0; i<LUTLENGTH; i++){
-        tab_r[i] = coef*(tab_r[i]-128)+128;
-        tab_g[i] = coef*(tab_g[i]-128)+128;
-        tab_b[i] = coef*(tab_b[i]-128)+128; //Contrast formula
-
-        clippingValues(tab_r, tab_g, tab_b, i);
+    for(int i=0; i<LUTLENGTH; i++){
+        lut -> tabR[i] = coef*((lut -> tabR[i])-128)+128;
+        lut -> tabG[i] = coef*((lut -> tabG[i])-128)+128;
+        lut -> tabB[i] = coef*((lut -> tabB[i])-128)+128; //Contrast formula
+        clippingValues(lut, i);
     }
 }
 
-void InvertLUT(int tab_r[], int tab_g[], int tab_b[]){
+void InvertLUT(FinalLUT *lut){
     //Assign to each input value an output value
     for(int i=0; i<LUTLENGTH; i++){
-        tab_r[i]= 255 - tab_r[i];
-        tab_g[i]= 255 - tab_g[i];
-        tab_b[i]= 255 - tab_b[i]; //Inverting color formula
+        lut -> tabR[i]= 255 - (lut -> tabR[i]);
+        lut -> tabG[i]= 255 - (lut -> tabG[i]);
+        lut -> tabB[i]= 255 - (lut -> tabB[i]); //Inverting color formula
     }
 }
 
-void RedLUT(int tab_r[], int tab_g[], int tab_b[]){
+void RedLUT(FinalLUT *lut){
     for(int i=0; i<LUTLENGTH; i++){
-        tab_g[i]= 0;
-    }
-    for(int i=0; i<LUTLENGTH; i++){
-        tab_b[i]= 0;
+        lut -> tabG[i] = 0;
+        lut -> tabB[i]= 0;
     }
 }
 
@@ -175,7 +182,7 @@ void SepiaLUT(Image* I){
 //********* LUT APPLY FUNCTIONS *********
 //***************************************
 
-
+/*
 void AssemblyLUT(Image* I, int intensity){
 	int tab_r[LUTLENGTH]; //Create an empty array
     int tab_g[LUTLENGTH]; //Create an empty array
@@ -188,59 +195,34 @@ void AssemblyLUT(Image* I, int intensity){
     }
 
     initLutArray(tab_r, tab_g, tab_b);
-
+    
     //TESTS AVEC DES LUTs PREDEFINIES
 	RedLUT(tab_r, tab_g, tab_b);
     AddConLUT(tab_r, tab_g, tab_b, intensity);
     InvertLUT(tab_r, tab_g, tab_b);
-
-    ApplyLut(I, tab_r, tab_g, tab_b);
-}
-
-void ApplyLut (Image* I, int tab_r[], int tab_g[], int tab_b[]){
-    int value; //Variable used to give the output value based on the input value
-
-    //Check if the image exists
-    if(!I){
-        printf("No image available.\n");
-        exit(EXIT_FAILURE);
-    }
-
-    //Assign to each subpixel its new value
-    for (int i=0; i<(I->w*I->h); i++){
-        value = I->pixel[i].r;
-        I->pixel[i].r = tab_r[value];
-        value = I->pixel[i].g;
-        I->pixel[i].g = tab_g[value];
-        value = I->pixel[i].b;
-        I->pixel[i].b = tab_b[value];
-    }
-}
-
-
-/*
-//Function to apply a LUT to a image
-void Lut(Image* I, int intensity, LUT chosenLut){
-    int tab_1[LUTLENGTH]; //Create an empty array
-    int tab_2[LUTLENGTH]; //Create an empty array
-    int tab_3[LUTLENGTH]; //Create an empty array
     
+    ApplyLut(I, tab_r, tab_g, tab_b);
+}*/
 
+
+
+
+
+//Function to apply a LUT to a image
+void selectLut(FinalLUT *lutF, int intensity, LUT chosenLut){
     //Check if the image exists
-	if(!I){
+	/*if(!I){
     	printf("No image available.\n");
     	exit(EXIT_FAILURE);
-    }
-
+    */
     switch(chosenLut){
-        case ADDLUM: AddLumLUT(tab_1, intensity); Apply1DLut (I, tab_1); break;
-        case DIMLUM: DimLumLUT(tab_1, intensity); Apply1DLut (I, tab_1); break;
-        case ADDCON: AddConLUT(tab_1, intensity); Apply1DLut (I, tab_1); break;
-        case DIMCON: DimConLUT(tab_1, intensity); Apply1DLut (I, tab_1); break;
-        case INVERT: InvertLUT(tab_1); Apply1DLut (I, tab_1); break;
-        case RED: RedLUT(tab_1, tab_2, tab_3); Apply3DLut(I, tab_1, tab_2, tab_3); break;
+        case ADDLUM: AddLumLUT(lutF, intensity); break;
+        case DIMLUM: DimLumLUT(lutF, intensity); break;
+        case ADDCON: AddConLUT(lutF, intensity); break;
+        case DIMCON: DimConLUT(lutF, intensity); break;
+        case INVERT: InvertLUT(lutF);  break;
+        case RED: RedLUT(lutF); break;
         //case SEPIA : SepiaLUT(I); break;
         default: printf("Error\n"); break;
     }
 }
-*/

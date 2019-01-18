@@ -16,6 +16,8 @@ int main(int argc, char *argv[])
 		Image I;
 		Image histoInitial;
 		Image histoFinal;
+    FinalLUT lutF;
+    initLutArray(&lutF);
 		LoadImage(&I,argv[1]);
 		int displayHistogram = 0;
 		int intensity = 0;
@@ -24,22 +26,25 @@ int main(int argc, char *argv[])
    				intensity = atoi(argv[i+1]);
    			}
    			if(strcmp(argv[i], "ADDCON") == 0){
-   				ApplyLut(&I, intensity, ADDCON);
+   				selectLut(&lutF, intensity, ADDCON);
    				printf("Ajout de contraste de valeur %d \n",intensity);
    			}else if(strcmp(argv[i], "DIMCON") == 0){
-   				ApplyLut(&I, intensity, DIMCON);
+   				selectLut(&lutF, intensity, DIMCON);
    				printf("Diminution du contraste \n");
    			}else if(strcmp(argv[i], "ADDLUM") == 0){
-   				ApplyLut(&I, intensity, ADDLUM);
+   				selectLut(&lutF, intensity, ADDLUM);
    				printf("Ajout de luminosite \n");
    			}else if(strcmp(argv[i], "DIMLUM") == 0){
-   				ApplyLut(&I, intensity, DIMLUM);
+   				selectLut(&lutF, intensity, DIMLUM);
    				printf("Diminution de la luminosite \n");
    			}else if(strcmp(argv[i], "INVERT") == 0){
    				printf("Inversion des couleurs \n");
-          ApplyLut(&I, intensity, INVERT);
-   			}else if(strcmp(argv[i], "SEPIA") == 0){
-          ApplyLut(&I, intensity, SEPIA);
+          selectLut(&lutF, intensity, INVERT);
+   			}else if(strcmp(argv[i], "RED") == 0){
+          selectLut(&lutF, intensity, RED);
+          printf("Filtre rouge \n");
+        }else if(strcmp(argv[i], "SEPIA") == 0){
+          //ApplyLut(&lutF, SEPIA);
    				printf("Conversion en sepia \n");
    			}else if(strcmp(argv[i], "-h") == 0 || strcmp(argv[i], "-histo") == 0){
    				displayHistogram = 1;
@@ -48,12 +53,15 @@ int main(int argc, char *argv[])
    			}
 			
 	   	}
+
+
+      ApplyLutToImage (&I, &lutF);
 	   	if(displayHistogram == 1){
-			WriteHistogram(&I, &histoFinal);
-			SaveImage(&histoFinal, "images/test_histo_final.ppm");
-			FreeImage(&histoInitial);
-	  		FreeImage(&histoFinal);
-		}
+			   WriteHistogram(&I, &histoFinal);
+			   SaveImage(&histoFinal, "images/test_histo_final.ppm");
+			   FreeImage(&histoInitial);
+	       FreeImage(&histoFinal);
+		  }
 		SaveImage(&I,"images/test.ppm");
 	   	FreeImage(&I);
 	   	return EXIT_SUCCESS;
