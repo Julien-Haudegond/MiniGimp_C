@@ -135,7 +135,29 @@ void InvertLUT(FinalLUT *lut){
 void RedLUT(FinalLUT *lut){
     for(int i=0; i<LUTLENGTH; i++){
         lut -> tabG[i] = 0;
-        lut -> tabB[i]= 0;
+        lut -> tabB[i] = 0;
+    }
+}
+
+void GreenLUT(FinalLUT *lut){
+    for(int i=0; i<LUTLENGTH; i++){
+        lut -> tabR[i] = 0;
+        lut -> tabB[i] = 0;
+    }
+}
+
+void BlueLUT(FinalLUT *lut){
+    for(int i=0; i<LUTLENGTH; i++){
+        lut -> tabR[i] = 0;
+        lut -> tabG[i] = 0;
+    }
+}
+
+void DayToNightLUT(FinalLUT *lut){
+	DimLumLUT(lut, 80);
+	for(int i=0; i<LUTLENGTH; i++){
+        lut -> tabR[i] = lut -> tabR[i]/2;
+        lut -> tabG[i] = lut -> tabG[i]/2;
     }
 }
 
@@ -148,7 +170,6 @@ void blackWhite(Image *img){
         img->pixel[i].b = newvalue;
     }
 }
-
 
 void SepiaLUT(FinalLUT *lut){
     for(int i=0; i<LUTLENGTH; i++){

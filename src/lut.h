@@ -8,12 +8,10 @@ typedef enum {
 	ADDLUM, DIMLUM, ADDCON, DIMCON, INVERT, SEPIA, RED
 } LUT;
 
-
 typedef struct FinalLUT{
     int tabR[LUTLENGTH];
     int tabG[LUTLENGTH];
     int tabB[LUTLENGTH];
-
 }FinalLUT;
 
 void initLutArray(FinalLUT *lut);
@@ -32,6 +30,9 @@ void InvertLUT(FinalLUT *lut);
 void blackWhite(Image *img);
 void SepiaLUT(FinalLUT *lut);
 void RedLUT(FinalLUT *lut);
+void GreenLUT(FinalLUT *lut);
+void BlueLUT(FinalLUT *lut);
+void DayToNightLUT(FinalLUT *lut);
 void selectLut(FinalLUT *lutF, int intensity, LUT chosenLut);
 
 //void AssemblyLUT(Image* I, int intensity);

@@ -82,18 +82,25 @@ int main(int argc, char *argv[])
 int main()
 {
     Image I;
-    Image histoInitial;
-    Image histoFinal;
+    //Image histoInitial;
+    //Image histoFinal;
+    FinalLUT lutF;
+    initLutArray(&lutF);
     LoadImage(&I,"images/PPM_Base/lake_P6.ppm");
-    WriteHistogram(&I, &histoInitial);
-    SaveImage(&histoInitial, "images/test_histo_initial.ppm");
-    ApplyLut(&I, 50, INVERT);
-    WriteHistogram(&I, &histoFinal);
-    SaveImage(&histoFinal, "images/test_histo_final.ppm");
+    //WriteHistogram(&I, &histoInitial);
+    //SaveImage(&histoInitial, "images/test_histo_initial.ppm");
+    //DayToNightLUT(&lutF);
+    //ApplyLutToImage(&I, &lutF);
+
+    blackWhite(&I);
+    SepiaLUT(&lutF);
+    ApplyLutToImage(&I, &lutF);
+    //WriteHistogram(&I, &histoFinal);
+    //SaveImage(&histoFinal, "images/test_histo_final.ppm");
     SaveImage(&I,"images/test.ppm");
     FreeImage(&I);
-    FreeImage(&histoInitial);
-    FreeImage(&histoFinal);
+    //FreeImage(&histoInitial);
+    //FreeImage(&histoFinal);
     return EXIT_SUCCESS;
 }
 
