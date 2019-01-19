@@ -9,6 +9,7 @@
 * Functions concerning the final LUT
 *************************/
 
+//Initializing the values for the LUT that will contain all combinations
 void initLutArray(FinalLUT *lut){
     for(int i =0; i<LUTLENGTH; i++){
             lut -> tabR[i] = i;
@@ -17,6 +18,7 @@ void initLutArray(FinalLUT *lut){
         }
 }
 
+//Prevent LUT values to be over 255 / under 0
 void clippingValues(FinalLUT *lut, int i){
     if (lut -> tabR[i] < 0) lut -> tabR[i] = 0;
     if (lut -> tabR[i] > 255) lut -> tabR[i] = 255;
@@ -137,44 +139,41 @@ void RedLUT(FinalLUT *lut){
     }
 }
 
-
-/*
-void SepiaLUT(int tab1[], int tab2[], int tab3[]){
-    int value; int change = 0;
-    for (int i=0; i<(I->w*I->h); i++){
-        value = (I->pixel[i].r + I->pixel[i].g + I->pixel[i].b)/3 ;
-        if (value > 40 && value < 225){
-            change = 20;
-        }
-        I->pixel[i].r = value + 10;
-        I->pixel[i].g = value;
-        I->pixel[i].b = value - change;
-        change = 0;
+void blackWhite(Image *img){
+    int newvalue;
+    for(int i = 0; i < (img->w*img->h); i++){
+        newvalue = (img->pixel[i].r + img->pixel[i].g + img->pixel[i].b)/3;
+        img->pixel[i].r = newvalue;
+        img->pixel[i].g = newvalue;
+        img->pixel[i].b = newvalue;
     }
 }
 
 
-void SepiaLUT(Image* I){
+void SepiaLUT(FinalLUT *lut){
     for(int i=0; i<LUTLENGTH; i++){
-        tab[i] = tab[i]-255; //Invert colors formula
-        if (tab[i] < 0) tab[i] = - tab[i];
-        if (tab[i] > 255) tab[i] = 255;
-    }
-   
-    BWLUT(I);
-    
-    for (int i=0; i<(I->w*I->h); i++){
-        //I->pixel[i].b = I->pixel[i].b + 20;
-       // I->pixel[i].r = I->pixel[i].r + 50;
-        
-        if(I->pixel[i].b < 0){
-            I->pixel[i].b = 0;
+        if(i<=50){
+            lut -> tabR[i] = (int)((lut -> tabR[i])*1.7);
+            lut -> tabG[i] = (int)((lut -> tabG[i])*1.3);
+            lut -> tabB[i] = (int)((lut -> tabB[i])*0.6);
+        }else if(i>=200){
+            lut -> tabR[i] = (int)((lut -> tabR[i])*1.25);
+            lut -> tabG[i] = (int)((lut -> tabG[i])*1.05);
+            lut -> tabB[i] = (int)((lut -> tabB[i])*0.6);
+        }else{
+            lut -> tabR[i] = (int)((lut -> tabR[i])*1.3);
+            lut -> tabG[i] = (int)((lut -> tabG[i])*1.1);
+            lut -> tabB[i] = (int)((lut -> tabB[i])*0.6);
         }
-        if(I->pixel[i].r > 255){
-            I->pixel[i].b = 255;
-        }
+        /*if(i>75){
+            lut -> tabR[i] = (int)((lut -> tabR[i])*1.1);
+            lut -> tabG[i] = (int)((lut -> tabG[i])*1.05);
+            lut -> tabB[i] = (int)((lut -> tabB[i])*0.8);
+        }*/
+        clippingValues(lut, i);
     }
-}*/
+}
+
 
 
 
@@ -182,39 +181,11 @@ void SepiaLUT(Image* I){
 //********* LUT APPLY FUNCTIONS *********
 //***************************************
 
-/*
-void AssemblyLUT(Image* I, int intensity){
-	int tab_r[LUTLENGTH]; //Create an empty array
-    int tab_g[LUTLENGTH]; //Create an empty array
-    int tab_b[LUTLENGTH]; //Create an empty array
-
-    //Check if the image exists
-	if(!I){
-    	printf("No image available.\n");
-    	exit(EXIT_FAILURE);
-    }
-
-    initLutArray(tab_r, tab_g, tab_b);
-    
-    //TESTS AVEC DES LUTs PREDEFINIES
-	RedLUT(tab_r, tab_g, tab_b);
-    AddConLUT(tab_r, tab_g, tab_b, intensity);
-    InvertLUT(tab_r, tab_g, tab_b);
-    
-    ApplyLut(I, tab_r, tab_g, tab_b);
-}*/
-
-
 
 
 
 //Function to apply a LUT to a image
 void selectLut(FinalLUT *lutF, int intensity, LUT chosenLut){
-    //Check if the image exists
-	/*if(!I){
-    	printf("No image available.\n");
-    	exit(EXIT_FAILURE);
-    */
     switch(chosenLut){
         case ADDLUM: AddLumLUT(lutF, intensity); break;
         case DIMLUM: DimLumLUT(lutF, intensity); break;
@@ -222,7 +193,7 @@ void selectLut(FinalLUT *lutF, int intensity, LUT chosenLut){
         case DIMCON: DimConLUT(lutF, intensity); break;
         case INVERT: InvertLUT(lutF);  break;
         case RED: RedLUT(lutF); break;
-        //case SEPIA : SepiaLUT(I); break;
+        case SEPIA : SepiaLUT(lutF); break;
         default: printf("Error\n"); break;
     }
 }

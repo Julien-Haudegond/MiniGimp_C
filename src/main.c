@@ -7,7 +7,7 @@
 #include "histogram.h"
 
 
-// ./bin/minigimp images/PPM_Base/lake_P6.ppm -h ADDLUM
+// ./bin/minigimp images/PPM_Base/lake_P6.ppm 
 
 int main(int argc, char *argv[])
 {
@@ -20,8 +20,9 @@ int main(int argc, char *argv[])
     initLutArray(&lutF);
 		LoadImage(&I,argv[1]);
 		int displayHistogram = 0;
-		int intensity = 0;
+		int intensity;
    		for(int i = 2; i < argc; i++){
+        intensity = 0;
    			if(i<argc-1){
    				intensity = atoi(argv[i+1]);
    			}
@@ -44,7 +45,8 @@ int main(int argc, char *argv[])
           selectLut(&lutF, intensity, RED);
           printf("Filtre rouge \n");
         }else if(strcmp(argv[i], "SEPIA") == 0){
-          //ApplyLut(&lutF, SEPIA);
+          blackWhite(&I);
+          selectLut(&lutF, intensity, SEPIA);
    				printf("Conversion en sepia \n");
    			}else if(strcmp(argv[i], "-h") == 0 || strcmp(argv[i], "-histo") == 0){
    				displayHistogram = 1;
@@ -64,6 +66,7 @@ int main(int argc, char *argv[])
 		  }
 		SaveImage(&I,"images/test.ppm");
 	   	FreeImage(&I);
+
 	   	return EXIT_SUCCESS;
 	}else{
 		printf("Missing argument : input file (filename.ppm)\n");

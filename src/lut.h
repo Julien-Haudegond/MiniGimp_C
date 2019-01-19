@@ -29,6 +29,8 @@ void DimLumLUT(FinalLUT *lut, int intensity);
 void AddConLUT(FinalLUT *lut, int intensity);
 void DimConLUT(FinalLUT *lut, int intensity);
 void InvertLUT(FinalLUT *lut);
+void blackWhite(Image *img);
+void SepiaLUT(FinalLUT *lut);
 void RedLUT(FinalLUT *lut);
 void selectLut(FinalLUT *lutF, int intensity, LUT chosenLut);
 
