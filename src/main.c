@@ -28,26 +28,25 @@ int main(int argc, char *argv[])
    			}
    			if(strcmp(argv[i], "ADDCON") == 0){
    				selectLut(&lutF, intensity, ADDCON);
-   				printf("Ajout de contraste de valeur %d \n",intensity);
    			}else if(strcmp(argv[i], "DIMCON") == 0){
    				selectLut(&lutF, intensity, DIMCON);
-   				printf("Diminution du contraste \n");
    			}else if(strcmp(argv[i], "ADDLUM") == 0){
    				selectLut(&lutF, intensity, ADDLUM);
-   				printf("Ajout de luminosite \n");
    			}else if(strcmp(argv[i], "DIMLUM") == 0){
    				selectLut(&lutF, intensity, DIMLUM);
-   				printf("Diminution de la luminosite \n");
    			}else if(strcmp(argv[i], "INVERT") == 0){
-   				printf("Inversion des couleurs \n");
           selectLut(&lutF, intensity, INVERT);
+        }else if(strcmp(argv[i], "DAYTON") == 0){
+          selectLut(&lutF, intensity, DAYTON);
    			}else if(strcmp(argv[i], "RED") == 0){
           selectLut(&lutF, intensity, RED);
-          printf("Filtre rouge \n");
+        }else if(strcmp(argv[i], "GREEN") == 0){
+          selectLut(&lutF, intensity, GREEN);
+        }else if(strcmp(argv[i], "BLUE") == 0){
+          selectLut(&lutF, intensity, BLUE);
         }else if(strcmp(argv[i], "SEPIA") == 0){
           blackWhite(&I);
           selectLut(&lutF, intensity, SEPIA);
-   				printf("Conversion en sepia \n");
    			}else if(strcmp(argv[i], "-h") == 0 || strcmp(argv[i], "-histo") == 0){
    				displayHistogram = 1;
    				WriteHistogram(&I, &histoInitial);
@@ -55,8 +54,6 @@ int main(int argc, char *argv[])
    			}
 			
 	   	}
-
-
       ApplyLutToImage (&I, &lutF);
 	   	if(displayHistogram == 1){
 			   WriteHistogram(&I, &histoFinal);

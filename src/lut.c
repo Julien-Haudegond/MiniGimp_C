@@ -23,7 +23,7 @@ void clippingValues(FinalLUT *lut, int i){
     if (lut -> tabR[i] < 0) lut -> tabR[i] = 0;
     if (lut -> tabR[i] > 255) lut -> tabR[i] = 255;
     if (lut -> tabG[i] < 0) lut -> tabG[i] = 0;
-    if (lut -> tabG[i] > 255) lut -> tabR[i] = 255;
+    if (lut -> tabG[i] > 255) lut -> tabG[i] = 255;
     if (lut -> tabB[i] < 0) lut -> tabB[i] = 0;
     if (lut -> tabB[i] > 255) lut -> tabB[i] = 255;
 }
@@ -173,24 +173,9 @@ void blackWhite(Image *img){
 
 void SepiaLUT(FinalLUT *lut){
     for(int i=0; i<LUTLENGTH; i++){
-        if(i<=50){
-            lut -> tabR[i] = (int)((lut -> tabR[i])*1.7);
-            lut -> tabG[i] = (int)((lut -> tabG[i])*1.3);
-            lut -> tabB[i] = (int)((lut -> tabB[i])*0.6);
-        }else if(i>=200){
-            lut -> tabR[i] = (int)((lut -> tabR[i])*1.25);
-            lut -> tabG[i] = (int)((lut -> tabG[i])*1.05);
-            lut -> tabB[i] = (int)((lut -> tabB[i])*0.6);
-        }else{
-            lut -> tabR[i] = (int)((lut -> tabR[i])*1.3);
+            lut -> tabR[i] = (int)((lut -> tabR[i])*1.4);
             lut -> tabG[i] = (int)((lut -> tabG[i])*1.1);
             lut -> tabB[i] = (int)((lut -> tabB[i])*0.6);
-        }
-        /*if(i>75){
-            lut -> tabR[i] = (int)((lut -> tabR[i])*1.1);
-            lut -> tabG[i] = (int)((lut -> tabG[i])*1.05);
-            lut -> tabB[i] = (int)((lut -> tabB[i])*0.8);
-        }*/
         clippingValues(lut, i);
     }
 }
@@ -213,7 +198,10 @@ void selectLut(FinalLUT *lutF, int intensity, LUT chosenLut){
         case ADDCON: AddConLUT(lutF, intensity); break;
         case DIMCON: DimConLUT(lutF, intensity); break;
         case INVERT: InvertLUT(lutF);  break;
+        case DAYTON: DayToNightLUT(lutF);  break;
         case RED: RedLUT(lutF); break;
+        case GREEN: GreenLUT(lutF); break;
+        case BLUE: BlueLUT(lutF); break;
         case SEPIA : SepiaLUT(lutF); break;
         default: printf("Error\n"); break;
     }

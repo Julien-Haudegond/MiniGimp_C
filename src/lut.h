@@ -5,7 +5,7 @@
 #include "image.h"
 
 typedef enum {
-	ADDLUM, DIMLUM, ADDCON, DIMCON, INVERT, SEPIA, RED
+	ADDLUM, DIMLUM, ADDCON, DIMCON, INVERT, DAYTON, SEPIA, RED, BLUE, GREEN
 } LUT;
 
 typedef struct FinalLUT{
