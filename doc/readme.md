@@ -9,16 +9,17 @@ To work, the program needs a P6 PPM image file and a list of effects to apply.
 
 ## How it works?
 
-Firstly, what you have to do is to convert your image to P6 PPM. To do that, type the next instruction in your terminal :
+Firstly, what you have to do is to convert your image to P6 PPM. To do that, type the next instruction in your terminal: <br/>
 *convert image.jpg image.ppm* (only if your source image is has a .jpg extension, of course)
 
-Then, you can run the program. If you are in the root folder, you can compile the executable.
+Then, you can run the program. If you are in the root folder, you can compile the executable: <br/>
 *make*
 
-After you just have to type what is written in your terminal.
+After you just have to type what is written in your terminal: <br/>
 *./bin/minigimp image.ppm effect intensity effect intensity ... final_image.ppm*
 
-Here is an expression you can type to test : **./bin/minigimp image.ppm ADDLUM 50 ADDCON 25 RED final_image.ppm**
+Here is an expression you can type to test: <br/>
+**./bin/minigimp image.ppm ADDLUM 50 ADDCON 25 RED final_image.ppm**
 
 ----------------
 
