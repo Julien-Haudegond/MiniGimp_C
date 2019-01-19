@@ -1,8 +1,9 @@
 MAIN_O = src/obj/main.o
 LUT_O = src/obj/lut.o
+FILTERS_O = src/obj/filters.o
 IMAGE_O = src/obj/image.o
 HISTOGRAM_O = src/obj/histogram.o
-OBJ = src/obj/main.o src/obj/lut.o src/obj/image.o src/obj/histogram.o
+OBJ = src/obj/main.o src/obj/lut.o src/obj/filters.o src/obj/image.o src/obj/histogram.o
 
 PROG = bin/minigimp
 
@@ -14,7 +15,7 @@ all : $(OBJ)
 	$(CC) $(CFLAGS) $(OBJ) -o $(PROG)
 	@echo "*** to execute, type : ./bin/minigimp & ***"
 
-$(MAIN_O) : src/main.c src/image.h src/lut.h  src/histogram.h
+$(MAIN_O) : src/main.c src/image.h src/lut.h src/filters.h src/histogram.h
 	@echo "compile main"
 	$(CC) $(CFLAGS) -c $< -o $@
 	@echo "done!"
@@ -26,6 +27,11 @@ $(IMAGE_O) : src/image.c src/image.h src/pixel.h
 
 $(LUT_O) : src/lut.c src/lut.h src/image.h
 	@echo "compile lut"
+	$(CC) $(CFLAGS) -c $< -o $@
+	@echo "done!"
+
+$(FILTERS_O) : src/filters.c src/filters.h
+	@echo "compile filters"
 	$(CC) $(CFLAGS) -c $< -o $@
 	@echo "done!"
 

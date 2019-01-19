@@ -4,6 +4,7 @@
 
 #include "image.h"
 #include "lut.h"
+#include "filters.h"
 #include "histogram.h"
 
 

@@ -161,16 +161,6 @@ void DayToNightLUT(FinalLUT *lut){
     }
 }
 
-void blackWhite(Image *img){
-    int newvalue;
-    for(int i = 0; i < (img->w*img->h); i++){
-        newvalue = (img->pixel[i].r + img->pixel[i].g + img->pixel[i].b)/3;
-        img->pixel[i].r = newvalue;
-        img->pixel[i].g = newvalue;
-        img->pixel[i].b = newvalue;
-    }
-}
-
 void SepiaLUT(FinalLUT *lut){
     for(int i=0; i<LUTLENGTH; i++){
             lut -> tabR[i] = (int)((lut -> tabR[i])*1.4);
@@ -179,9 +169,6 @@ void SepiaLUT(FinalLUT *lut){
         clippingValues(lut, i);
     }
 }
-
-
-
 
 //***************************************
 //********* LUT APPLY FUNCTIONS *********
