@@ -172,10 +172,11 @@ void BlueLUT(FinalLUT *lut){
 }
 
 void DayToNightLUT(FinalLUT *lut){
-	DimLumLUT(lut, 80);
+	DimLumLUT(lut, 20);
 	for(int i=0; i<LUTLENGTH; i++){
-        lut -> tabR[i] = lut -> tabR[i]/2;
-        lut -> tabG[i] = lut -> tabG[i]/2;
+        lut -> tabR[i] = (int) lut -> tabR[i]*0.3;
+        lut -> tabG[i] = (int) lut -> tabG[i]*0.4;
+        lut -> tabB[i] = (int) lut -> tabB[i]*0.6;
     }
 }
 
