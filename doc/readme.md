@@ -38,8 +38,9 @@ There are two types of effects : the **LUTs** and the "destructive" image effect
 * RED: Turn your image to a red monochrome. No intensity required.
 * GREEN: Turn your image to a green monochrome. No intensity required.
 * BLUE: Turn your image to a blue monochrome. No intensity required.
+* DAYTON : Apply a "Day to Night" look to your image. No intensity required.
 
-### Other effects
+### Other effects (destructive filters)
 
 * BW: Turn your image to a gray-scaled image. No intensity required.
 * FLOP: Left becomes right and vice-versa. No intensity required.

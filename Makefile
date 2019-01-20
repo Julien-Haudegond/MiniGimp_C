@@ -30,7 +30,7 @@ $(LUT_O) : src/lut.c src/lut.h src/image.h
 	$(CC) $(CFLAGS) -c $< -o $@
 	@echo "done!"
 
-$(FILTERS_O) : src/filters.c src/filters.h
+$(FILTERS_O) : src/filters.c src/filters.h src/image.h
 	@echo "compile filters"
 	$(CC) $(CFLAGS) -c $< -o $@
 	@echo "done!"

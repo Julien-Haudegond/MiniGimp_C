@@ -48,13 +48,31 @@ void ApplyLutToImage (Image* I, FinalLUT *lut){
     }
 }
 
+void selectLut(FinalLUT *lutF, int intensity, LUT chosenLut){
+    switch(chosenLut){
+        case ADDLUM: AddLumLUT(lutF, intensity); break;
+        case DIMLUM: DimLumLUT(lutF, intensity); break;
+        case ADDCON: AddConLUT(lutF, intensity); break;
+        case DIMCON: DimConLUT(lutF, intensity); break;
+        case INVERT: InvertLUT(lutF);  break;
+        case DAYTON: DayToNightLUT(lutF);  break;
+        case RED: RedLUT(lutF); break;
+        case GREEN: GreenLUT(lutF); break;
+        case BLUE: BlueLUT(lutF); break;
+        case SEPIA : SepiaLUT(lutF); break;
+        default: printf("Error\n"); break;
+    }
+}
+
+
+
 //******************************
 //********* LUT ARRAYS *********
 //******************************
 
 void AddLumLUT(FinalLUT *lut, int intensity){
-    if(intensity < 0){
-    	fprintf(stderr, "The intensity factor needs to be a positive number\n");
+    if(intensity < 0 || intensity > 100){
+    	fprintf(stderr, "The intensity factor needs to be a number between 0 and 100.\n");
     	exit(EXIT_FAILURE);
     }
 
@@ -69,8 +87,8 @@ void AddLumLUT(FinalLUT *lut, int intensity){
 }
 
 void DimLumLUT(FinalLUT *lut, int intensity){
-    if(intensity < 0){
-    	fprintf(stderr, "The intensity factor needs to be a positive number\n");
+    if(intensity < 0 || intensity > 100){
+    	fprintf(stderr, "The intensity factor needs to be a number between 0 and 100.\n");
     	exit(EXIT_FAILURE);
     }
 
@@ -86,8 +104,8 @@ void DimLumLUT(FinalLUT *lut, int intensity){
 
 void AddConLUT(FinalLUT *lut, int intensity){
     //Check if the intensity is a positive number
-    if(intensity < 0){
-    	fprintf(stderr, "Error, the contrast parameter needs to be positive number\n");
+    if(intensity < 0 || intensity > 100){
+    	fprintf(stderr, "The intensity factor needs to be a number between 0 and 100.\n");
     	exit(EXIT_FAILURE);
     }
 
@@ -105,8 +123,8 @@ void AddConLUT(FinalLUT *lut, int intensity){
 
 void DimConLUT(FinalLUT *lut, int intensity){
     //Check if the intensity is a positive number
-    if(intensity < 0){
-    	fprintf(stderr, "Error, the contrast parameter needs to be positive number\n");
+    if(intensity < 0 || intensity > 100){
+    	fprintf(stderr, "The intensity factor needs to be a number between 0 and 100.\n");
     	exit(EXIT_FAILURE);
     }
 
@@ -167,29 +185,5 @@ void SepiaLUT(FinalLUT *lut){
             lut -> tabG[i] = (int)((lut -> tabG[i])*1.1);
             lut -> tabB[i] = (int)((lut -> tabB[i])*0.6);
         clippingValues(lut, i);
-    }
-}
-
-//***************************************
-//********* LUT APPLY FUNCTIONS *********
-//***************************************
-
-
-
-
-//Function to apply a LUT to a image
-void selectLut(FinalLUT *lutF, int intensity, LUT chosenLut){
-    switch(chosenLut){
-        case ADDLUM: AddLumLUT(lutF, intensity); break;
-        case DIMLUM: DimLumLUT(lutF, intensity); break;
-        case ADDCON: AddConLUT(lutF, intensity); break;
-        case DIMCON: DimConLUT(lutF, intensity); break;
-        case INVERT: InvertLUT(lutF);  break;
-        case DAYTON: DayToNightLUT(lutF);  break;
-        case RED: RedLUT(lutF); break;
-        case GREEN: GreenLUT(lutF); break;
-        case BLUE: BlueLUT(lutF); break;
-        case SEPIA : SepiaLUT(lutF); break;
-        default: printf("Error\n"); break;
     }
 }
