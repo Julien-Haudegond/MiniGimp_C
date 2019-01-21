@@ -53,6 +53,13 @@ int WriteHistogram(Image* I, Image* Histo){
 		if(counter[i] > max_height) max_height = counter[i];
 	}
 
+	while(max_height > 2000){
+		for(i=0; i<256; i++){
+			counter[i] /= 2;
+		}
+		max_height /= 2;
+	}
+
 	//Invert the counter in function of the histogram's height
 	for(i=0; i<256; i++){
 		counter[i] = max_height - counter[i];
@@ -64,10 +71,10 @@ int WriteHistogram(Image* I, Image* Histo){
 	for(i=0; i<(Histo->h); i++){ //Read line by line
 		for(j=0; j<256; j++){ //Read column by column
 			if (counter[j] <= 0){ //Make a white pixel if the array says it is the moment to put one
-				for(k=0; k<width_times/2; k++){ //Permit to have an histogram's width of a multiple of 256 and to draw several times the vertical bars
-					Histo->pixel[(i*Histo->w)+(j*width_times+2*k)].r = 255;
-					Histo->pixel[(i*Histo->w)+(j*width_times+2*k)].g = 255;
-					Histo->pixel[(i*Histo->w)+(j*width_times+2*k)].b = 255;
+				for(k=0; k<width_times/1; k++){ //Permit to have an histogram's width of a multiple of 256 and to draw several times the vertical bars
+					Histo->pixel[(i*Histo->w)+(j*width_times+1*k)].r = 255;
+					Histo->pixel[(i*Histo->w)+(j*width_times+1*k)].g = 255;
+					Histo->pixel[(i*Histo->w)+(j*width_times+1*k)].b = 255;
 				}	
 			}
 			counter[j] -= 1;
