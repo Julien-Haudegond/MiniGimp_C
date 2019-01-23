@@ -3,7 +3,7 @@
 
 #include "histogram.h"
 
-void LuminanceCounter(Image* I, double counter[]){
+void luminanceCounter(Image* I, double counter[]){
 	int i;
 	int value;
 	//double compteurTEST = 0;
@@ -34,7 +34,7 @@ void LuminanceCounter(Image* I, double counter[]){
 }
 
 
-int WriteHistogram(Image* I, Image* Histo){
+int writeHistogram(Image* I, Image* Histo){
 	int i, j, k;
 	int width_times = 6; //Times factor for the histogram's width
 	unsigned int width = width_times*256, max_height = 0; //Dimensions of the histogram's image
@@ -46,7 +46,7 @@ int WriteHistogram(Image* I, Image* Histo){
     	exit(EXIT_FAILURE);
     }
 
-	LuminanceCounter(I, counter);
+	luminanceCounter(I, counter);
 
 	//Define the heigth of the histogram (without looking at 0 and 255 because of clipping values)
 	for(i=1; i<255; i++){
@@ -65,7 +65,7 @@ int WriteHistogram(Image* I, Image* Histo){
 		counter[i] = max_height - counter[i];
 	}
 	//Create the array with the right dimensions for the histogram
-	NewImage(Histo,width,max_height);
+	newImage(Histo,width,max_height);
 
 	//Fill the histogram array in function of the counter values
 	for(i=0; i<(Histo->h); i++){ //Read line by line

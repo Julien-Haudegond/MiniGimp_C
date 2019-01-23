@@ -21,7 +21,7 @@ void displayMessage(int i){
     case 2:
     fprintf((stderr), "Unvalid filename for output PPM file \n"); break;
     case 3:
-    fprintf((stderr),"Missing a value argument for a LUT. Value has been automatically set to 20 \n"); break;
+    fprintf((stderr),"Missing a value argument for a LUT. Value has been automatically set to 30 \n"); break;
     case 4:
     fprintf((stderr),"Missing/Unvalid option or name for output ppm file. Name has been automatically set to result.ppm \n"); break;
     case 5:
@@ -36,5 +36,5 @@ void displayMessage(int i){
 
 void displayExample(){
   fprintf((stderr), "Try something like : ./bin/minigimp PPM_IMAGE_NAME.ppm [-h] LUT_1 [VALUE_1] LUT_N [VALUE_N] [-o MYIMAGE.ppm] \n");
-  fprintf((stderr), "Value parameter is unnecessary for : INVERT, SEPIA, RED, GREEN, BLUE and DAYTON \n");
+  fprintf((stderr), "Value parameter is unnecessary for : INVERT, SEPIA, BW, RED, GREEN, BLUE, FLIP, FLOP, FLIPFLOP and DAYTON \n");
 }

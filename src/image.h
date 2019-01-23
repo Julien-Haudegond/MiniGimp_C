@@ -9,9 +9,9 @@ typedef struct Image
 	Pixel* pixel;
 } Image;
 
-void NewImage(Image* I, unsigned int w, unsigned int h);
-void FreeImage(Image* I);
-int LoadImage(Image* I, const char* fichier);
-int SaveImage(Image* I, const char* fichier);
+void newImage(Image* I, unsigned int w, unsigned int h);
+void freeImage(Image* I);
+int loadImage(Image* I, const char* fichier);
+int saveImage(Image* I, const char* fichier);
 
 #endif

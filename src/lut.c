@@ -28,7 +28,7 @@ void clippingValues(FinalLUT *lut, int i){
     if (lut -> tabB[i] > 255) lut -> tabB[i] = 255;
 }
 
-void ApplyLutToImage (Image* I, FinalLUT *lut){
+void applyLutToImage (Image* I, FinalLUT *lut){
     int value; //Variable used to give the output value based on the input value
 
     //Check if the image exists
@@ -50,16 +50,16 @@ void ApplyLutToImage (Image* I, FinalLUT *lut){
 
 void selectLut(FinalLUT *lutF, int intensity, LUT chosenLut){
     switch(chosenLut){
-        case ADDLUM: AddLumLUT(lutF, intensity); break;
-        case DIMLUM: DimLumLUT(lutF, intensity); break;
-        case ADDCON: AddConLUT(lutF, intensity); break;
-        case DIMCON: DimConLUT(lutF, intensity); break;
-        case INVERT: InvertLUT(lutF);  break;
-        case DAYTON: DayToNightLUT(lutF);  break;
-        case RED: RedLUT(lutF); break;
-        case GREEN: GreenLUT(lutF); break;
-        case BLUE: BlueLUT(lutF); break;
-        case SEPIA : SepiaLUT(lutF); break;
+        case ADDLUM: addLumLUT(lutF, intensity); break;
+        case DIMLUM: dimLumLUT(lutF, intensity); break;
+        case ADDCON: addConLUT(lutF, intensity); break;
+        case DIMCON: dimConLUT(lutF, intensity); break;
+        case INVERT: invertLUT(lutF);  break;
+        case DAYTON: dayToNightLUT(lutF);  break;
+        case RED: redLUT(lutF); break;
+        case GREEN: greenLUT(lutF); break;
+        case BLUE: blueLUT(lutF); break;
+        case SEPIA : sepiaLUT(lutF); break;
         default: printf("Error\n"); break;
     }
 }
@@ -70,7 +70,7 @@ void selectLut(FinalLUT *lutF, int intensity, LUT chosenLut){
 //********* LUT ARRAYS *********
 //******************************
 
-void AddLumLUT(FinalLUT *lut, int intensity){
+void addLumLUT(FinalLUT *lut, int intensity){
     if(intensity < 0 || intensity > 100){
     	fprintf(stderr, "The intensity factor needs to be a number between 0 and 100.\n");
     	exit(EXIT_FAILURE);
@@ -86,7 +86,7 @@ void AddLumLUT(FinalLUT *lut, int intensity){
     }
 }
 
-void DimLumLUT(FinalLUT *lut, int intensity){
+void dimLumLUT(FinalLUT *lut, int intensity){
     if(intensity < 0 || intensity > 100){
     	fprintf(stderr, "The intensity factor needs to be a number between 0 and 100.\n");
     	exit(EXIT_FAILURE);
@@ -102,7 +102,7 @@ void DimLumLUT(FinalLUT *lut, int intensity){
     }
 }
 
-void AddConLUT(FinalLUT *lut, int intensity){
+void addConLUT(FinalLUT *lut, int intensity){
     //Check if the intensity is a positive number
     if(intensity < 0 || intensity > 100){
     	fprintf(stderr, "The intensity factor needs to be a number between 0 and 100.\n");
@@ -121,7 +121,7 @@ void AddConLUT(FinalLUT *lut, int intensity){
     }
 }
 
-void DimConLUT(FinalLUT *lut, int intensity){
+void dimConLUT(FinalLUT *lut, int intensity){
     //Check if the intensity is a positive number
     if(intensity < 0 || intensity > 100){
     	fprintf(stderr, "The intensity factor needs to be a number between 0 and 100.\n");
@@ -141,7 +141,7 @@ void DimConLUT(FinalLUT *lut, int intensity){
     }
 }
 
-void InvertLUT(FinalLUT *lut){
+void invertLUT(FinalLUT *lut){
     //Assign to each input value an output value
     for(int i=0; i<LUTLENGTH; i++){
         lut -> tabR[i]= 255 - (lut -> tabR[i]);
@@ -150,29 +150,29 @@ void InvertLUT(FinalLUT *lut){
     }
 }
 
-void RedLUT(FinalLUT *lut){
+void redLUT(FinalLUT *lut){
     for(int i=0; i<LUTLENGTH; i++){
         lut -> tabG[i] = 0;
         lut -> tabB[i] = 0;
     }
 }
 
-void GreenLUT(FinalLUT *lut){
+void greenLUT(FinalLUT *lut){
     for(int i=0; i<LUTLENGTH; i++){
         lut -> tabR[i] = 0;
         lut -> tabB[i] = 0;
     }
 }
 
-void BlueLUT(FinalLUT *lut){
+void blueLUT(FinalLUT *lut){
     for(int i=0; i<LUTLENGTH; i++){
         lut -> tabR[i] = 0;
         lut -> tabG[i] = 0;
     }
 }
 
-void DayToNightLUT(FinalLUT *lut){
-	DimLumLUT(lut, 20);
+void dayToNightLUT(FinalLUT *lut){
+	dimLumLUT(lut, 20);
 	for(int i=0; i<LUTLENGTH; i++){
         lut -> tabR[i] = (int) lut -> tabR[i]*0.3;
         lut -> tabG[i] = (int) lut -> tabG[i]*0.4;
@@ -180,7 +180,7 @@ void DayToNightLUT(FinalLUT *lut){
     }
 }
 
-void SepiaLUT(FinalLUT *lut){
+void sepiaLUT(FinalLUT *lut){
     for(int i=0; i<LUTLENGTH; i++){
             lut -> tabR[i] = (int)((lut -> tabR[i])*1.4);
             lut -> tabG[i] = (int)((lut -> tabG[i])*1.1);

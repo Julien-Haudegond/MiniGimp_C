@@ -3,7 +3,7 @@
 
 #include "image.h"
 
-void NewImage(Image* I, unsigned int w, unsigned int h)
+void newImage(Image* I, unsigned int w, unsigned int h)
 {
 	//Memory allocation
 	I->pixel = calloc(1, w*h*sizeof(Pixel));
@@ -17,7 +17,7 @@ void NewImage(Image* I, unsigned int w, unsigned int h)
 }
 
 //Free the allocated memory
-void FreeImage(Image* I)
+void freeImage(Image* I)
 {
 	if (I)
 	{
@@ -25,7 +25,7 @@ void FreeImage(Image* I)
 	}
 }
 
-int LoadImage(Image* I, const char* fichier)
+int loadImage(Image* I, const char* fichier)
 {
 	int w, h, maxDepth, reader;
 	char magicNumber[10];
@@ -65,7 +65,7 @@ int LoadImage(Image* I, const char* fichier)
 	}
 
 	//Create a new image (array) with the right dimensions ; read the values of the PPM and store them in the empty array
-	NewImage(I,w,h);
+	newImage(I,w,h);
     if(fread(I->pixel, sizeof(Pixel), w*h, F) != w*h){
     	fprintf(stderr, "Error: the image was not read completely.\n");
     	exit(EXIT_FAILURE);
@@ -74,7 +74,7 @@ int LoadImage(Image* I, const char* fichier)
 	return EXIT_SUCCESS;
 }
 
-int SaveImage(Image* I, const char* fichier)
+int saveImage(Image* I, const char* fichier)
 {
 	//Create a new file
 	FILE* F = fopen(fichier,"wb");

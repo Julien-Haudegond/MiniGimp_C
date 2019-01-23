@@ -13,10 +13,10 @@ void blackWhite(Image *img){
     }
 }
 
-void FlopImage(Image* I){
+void flopImage(Image* I){
 	Image copiedImg;
 
-	NewImage(&copiedImg, I->w, I->h); //Create a new image
+	newImage(&copiedImg, I->w, I->h); //Create a new image
 
 	for(int i = 0; i < (I->w*I->h); i++){ //Duplicate the original image
         copiedImg.pixel[i].r = I->pixel[i].r;
@@ -33,10 +33,10 @@ void FlopImage(Image* I){
     }
 }
 
-void FlipImage(Image* I){
+void flipImage(Image* I){
 	Image copiedImg;
 
-	NewImage(&copiedImg, I->w, I->h); //Create a new image
+	newImage(&copiedImg, I->w, I->h); //Create a new image
 
 	for(int i = 0; i < (I->w*I->h); i++){ //Duplicate the original image
         copiedImg.pixel[i].r = I->pixel[i].r;
@@ -53,7 +53,7 @@ void FlipImage(Image* I){
     }
 }
 
-void FlipFlopImage(Image* I){
-	FlipImage(I);
-	FlopImage(I);
+void flipFlopImage(Image* I){
+	flipImage(I);
+	flopImage(I);
 }

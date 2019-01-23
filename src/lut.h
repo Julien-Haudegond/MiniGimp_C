@@ -16,27 +16,18 @@ typedef struct FinalLUT{
 
 void initLutArray(FinalLUT *lut);
 void clippingValues(FinalLUT *lut, int i);
-void ApplyLutToImage (Image* I, FinalLUT *lut);
-
-//void initLutArray(int tab_r[], int tab_g[], int tab_b[]);
-//void clippingValues(int tab_r[], int tab_g[], int tab_b[], int i);
-
-
-void AddLumLUT(FinalLUT *lut, int intensity);
-void DimLumLUT(FinalLUT *lut, int intensity);
-void AddConLUT(FinalLUT *lut, int intensity);
-void DimConLUT(FinalLUT *lut, int intensity);
-void InvertLUT(FinalLUT *lut);
-void SepiaLUT(FinalLUT *lut);
-void RedLUT(FinalLUT *lut);
-void GreenLUT(FinalLUT *lut);
-void BlueLUT(FinalLUT *lut);
-void DayToNightLUT(FinalLUT *lut);
+void applyLutToImage (Image* I, FinalLUT *lut);
 void selectLut(FinalLUT *lutF, int intensity, LUT chosenLut);
 
-//void AssemblyLUT(Image* I, int intensity);
-//void ApplyLut (Image* I, int tab_r[], int tab_g[], int tab_b[]);
-
-
+void addLumLUT(FinalLUT *lut, int intensity);
+void dimLumLUT(FinalLUT *lut, int intensity);
+void addConLUT(FinalLUT *lut, int intensity);
+void dimConLUT(FinalLUT *lut, int intensity);
+void invertLUT(FinalLUT *lut);
+void sepiaLUT(FinalLUT *lut);
+void redLUT(FinalLUT *lut);
+void greenLUT(FinalLUT *lut);
+void blueLUT(FinalLUT *lut);
+void dayToNightLUT(FinalLUT *lut);
 
 #endif

@@ -14,7 +14,7 @@ CFLAGS = -Wall -O2 -g3
 
 all : $(OBJ)
 	$(CC) $(CFLAGS) $(OBJ) -o $(PROG)
-	@echo "*** to execute, type : ./bin/minigimp & ***"
+	@echo "*** to execute, type : ./bin/minigimp lake_P6.ppm ADDLUM 30 ADDCON 45 FLIPFLOP -h -o lake_final.ppm ***"
 
 $(MAIN_O) : src/main.c src/arguments.h src/image.h src/lut.h src/filters.h src/histogram.h
 	@echo "compile main"

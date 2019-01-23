@@ -3,7 +3,7 @@
 
 #include "image.h"
 
-void LuminanceCounter(Image* I, double counter[]);
-int WriteHistogram(Image* I, Image* Histo);
+void luminanceCounter(Image* I, double counter[]);
+int writeHistogram(Image* I, Image* Histo);
 
 #endif

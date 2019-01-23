@@ -22,7 +22,7 @@ int main(int argc, char *argv[])
   		Image histoFinal;
       FinalLUT lutF;
       initLutArray(&lutF);
-  		LoadImage(&I,InitialImagePath);
+  		loadImage(&I,InitialImagePath);
 
       //initialing counters for optional arguments
   		int displayHistogram = 0;
@@ -42,11 +42,10 @@ int main(int argc, char *argv[])
               displayMessage(3);
               intensity = 20;
             }
-            printf("Intensity : %d \n", intensity);
           //case where a LUT that is supposed to have an intensity value is the last argument
      			}else if(i == argc-1 && requiredIntensity == 1){
               displayMessage(3);
-              intensity = 20;
+              intensity = 30;
           }
           //Selecting the chosen LUTs
      			if(strcmp(argv[i], "ADDCON") == 0){
@@ -70,41 +69,44 @@ int main(int argc, char *argv[])
           }else if(strcmp(argv[i], "SEPIA") == 0){
             blackWhite(&I);
             selectLut(&lutF, intensity, SEPIA);
+          }else if(strcmp(argv[i], "BW") == 0){
+            blackWhite(&I);
+          }else if(strcmp(argv[i], "FLIP") == 0){
+            flipImage(&I);
+          }else if(strcmp(argv[i], "FLOP") == 0){
+            flopImage(&I);
+          }else if(strcmp(argv[i], "FLIPFLOP") == 0){
+            flipFlopImage(&I);
      			}else if(strcmp(argv[i], "-h") == 0 || strcmp(argv[i], "-histo") == 0){
             displayHistogram = 1;
-            WriteHistogram(&I, &histoInitial);
-            SaveImage(&histoInitial, "images/histo_initial.ppm");
+            writeHistogram(&I, &histoInitial);
+            saveImage(&histoInitial, "images/histo_initial.ppm");
             displayMessage(6);
-          }else if(strcmp(argv[i], "-o") == 0){
+          }else if(strcmp(argv[i], "-o") == 0 && i != argc-1){
             if(strcmp(checkPPMFile(argv[i+1]), "ppm") == 0){
               chooseFileName = 1;
               char FinalImagePath[MAX_FILENAME]="./images/";
               strcat(FinalImagePath,argv[i+1]);
-              ApplyLutToImage (&I, &lutF);
-              SaveImage(&I,FinalImagePath);
-            }else{
-              displayMessage(2);
-              displayExample();
-              return EXIT_FAILURE;
-            }
-            
-     			}
-  			
+              applyLutToImage (&I, &lutF);
+              saveImage(&I,FinalImagePath);
+     			  }
+          }
+  			 requiredIntensity = 0;
   	   	}
       if(chooseFileName != 1){
-        ApplyLutToImage (&I, &lutF);
+        applyLutToImage (&I, &lutF);
       }
   	  if(displayHistogram == 1){
-  			 WriteHistogram(&I, &histoFinal);
-  			 SaveImage(&histoFinal, "images/histo_final.ppm");
-  			 FreeImage(&histoInitial);
-  	     FreeImage(&histoFinal);
+  			 writeHistogram(&I, &histoFinal);
+  			 saveImage(&histoFinal, "images/histo_final.ppm");
+  			 freeImage(&histoInitial);
+  	     freeImage(&histoFinal);
   		}
       if(chooseFileName != 1){
         displayMessage(4);
-        SaveImage(&I,"images/result.ppm");
+        saveImage(&I,"images/result.ppm");
       }
-  	   	FreeImage(&I);
+  	   	freeImage(&I);
         displayMessage(5);
   	   	return EXIT_SUCCESS;
   	}
@@ -115,34 +117,3 @@ int main(int argc, char *argv[])
     return EXIT_FAILURE;
    }
 }
-
-
-#ifdef DONTREADTHISCODE
-
-//MAIN DE TEST (pas définitif)
-int main()
-{
-    Image I;
-    //Image histoInitial;
-    //Image histoFinal;
-    FinalLUT lutF;
-    initLutArray(&lutF);
-    LoadImage(&I,"images/PPM_Base/lake_P6.ppm");
-    //WriteHistogram(&I, &histoInitial);
-    //SaveImage(&histoInitial, "images/test_histo_initial.ppm");
-    //DayToNightLUT(&lutF);
-    //ApplyLutToImage(&I, &lutF);
-
-    blackWhite(&I);
-    SepiaLUT(&lutF);
-    ApplyLutToImage(&I, &lutF);
-    //WriteHistogram(&I, &histoFinal);
-    //SaveImage(&histoFinal, "images/test_histo_final.ppm");
-    SaveImage(&I,"images/test.ppm");
-    FreeImage(&I);
-    //FreeImage(&histoInitial);
-    //FreeImage(&histoFinal);
-    return EXIT_SUCCESS;
-}
-
-#endif

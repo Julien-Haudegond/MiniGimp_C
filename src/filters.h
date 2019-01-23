@@ -4,8 +4,8 @@
 #include "image.h"
 
 void blackWhite(Image *img);
-void FlopImage(Image* I);
-void FlipImage(Image* I);
-void FlipFlopImage(Image* I);
+void flopImage(Image* I);
+void flipImage(Image* I);
+void flipFlopImage(Image* I);
 
 #endif
