@@ -13,7 +13,7 @@
 int main(int argc, char *argv[])
 {
   if(strcmp(checkPPMFile(argv[1]), "ppm") == 0){
-    char InitialImagePath[MAX_FILENAME]="./images/PPM_Base/";
+    char InitialImagePath[MAX_FILENAME]="./images/";
     strcat(InitialImagePath,argv[1]);
 	
   	if(argc >= 2){
