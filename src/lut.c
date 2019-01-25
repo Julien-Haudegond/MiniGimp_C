@@ -181,8 +181,9 @@ void dayToNightLUT(FinalLUT *lut){
 }
 
 void sepiaLUT(FinalLUT *lut){
+    dimConLUT(lut, 20);
     for(int i=0; i<LUTLENGTH; i++){
-            lut -> tabR[i] = (int)((lut -> tabR[i])*1.4);
+            lut -> tabR[i] = (int)((lut -> tabR[i])*1.2);
             lut -> tabG[i] = (int)((lut -> tabG[i])*1.1);
             lut -> tabB[i] = (int)((lut -> tabB[i])*0.6);
         clippingValues(lut, i);
